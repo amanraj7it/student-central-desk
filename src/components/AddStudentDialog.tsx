@@ -12,7 +12,7 @@ interface AddStudentDialogProps {
   onAdd: (data: Omit<Student, "id" | "avatar">) => void;
 }
 
-const EMPTY = { name: "", rollNumber: "", email: "", grade: "", section: "", phone: "" };
+const EMPTY = { name: "", registerNumber: "", email: "", grade: "", section: "", phone: "" };
 
 export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialogProps) => {
   const [form, setForm] = useState(EMPTY);
@@ -30,7 +30,7 @@ export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialog
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.rollNumber) return;
+    if (!form.name || !form.registerNumber) return;
     onAdd({ ...form, profilePicture });
     setForm(EMPTY);
     setProfilePicture(undefined);
@@ -78,8 +78,8 @@ export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialog
               <Input id="name" value={form.name} onChange={set("name")} placeholder="John Doe" />
             </div>
             <div>
-              <Label htmlFor="roll">Roll Number *</Label>
-              <Input id="roll" value={form.rollNumber} onChange={set("rollNumber")} placeholder="006" />
+              <Label htmlFor="roll">Register Number *</Label>
+              <Input id="roll" value={form.registerNumber} onChange={set("registerNumber")} placeholder="006" />
             </div>
             <div>
               <Label htmlFor="grade">Grade</Label>

@@ -14,7 +14,7 @@ const Index = () => {
   const filtered = students.filter(
     (s) =>
       s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.rollNumber.includes(search) ||
+      s.registerNumber.includes(search) ||
       s.email.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -64,7 +64,7 @@ const Index = () => {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search by name, roll number, or email…"
+              placeholder="Search by name, register number, or email…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-10 bg-card"
