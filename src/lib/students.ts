@@ -7,6 +7,7 @@ export interface Student {
   section: string;
   phone: string;
   avatar: string;
+  profilePicture?: string;
 }
 
 const AVATARS = [
