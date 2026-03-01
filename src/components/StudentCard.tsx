@@ -1,6 +1,7 @@
 import { Trash2, Mail, Phone } from "lucide-react";
 import { Student } from "@/lib/students";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface StudentCardProps {
   student: Student;
@@ -8,8 +9,13 @@ interface StudentCardProps {
 }
 
 export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="group relative bg-card rounded-xl border border-border p-5 shadow-card hover:shadow-elevated transition-shadow duration-300">
+    <div
+      onClick={() => navigate(`/student/${student.id}`)}
+      className="group relative bg-card rounded-xl border border-border p-5 shadow-card hover:shadow-elevated transition-shadow duration-300 cursor-pointer"
+    >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-2xl overflow-hidden shrink-0">
@@ -27,7 +33,7 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => onDelete(student.id)}
+          onClick={(e) => { e.stopPropagation(); onDelete(student.id); }}
           className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10 h-8 w-8"
         >
           <Trash2 className="h-4 w-4" />
@@ -52,6 +58,11 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
         <span className="inline-flex items-center rounded-md bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
           Section {student.section}
         </span>
+        {student.photos && student.photos.length > 0 && (
+          <span className="inline-flex items-center rounded-md bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground ml-auto">
+            📷 {student.photos.length}
+          </span>
+        )}
       </div>
     </div>
   );

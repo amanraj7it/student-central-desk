@@ -12,7 +12,7 @@ interface AddStudentDialogProps {
   onAdd: (data: Omit<Student, "id" | "avatar">) => void;
 }
 
-const EMPTY = { name: "", registerNumber: "", email: "", grade: "", section: "", phone: "" };
+const EMPTY = { name: "", registerNumber: "", email: "", grade: "", section: "", phone: "", dateOfBirth: "", bloodGroup: "", address: "", parentName: "", parentPhone: "" };
 
 export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialogProps) => {
   const [form, setForm] = useState(EMPTY);
@@ -96,6 +96,26 @@ export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialog
             <div className="col-span-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" value={form.email} onChange={set("email")} placeholder="student@school.edu" />
+            </div>
+            <div>
+              <Label htmlFor="dob">Date of Birth</Label>
+              <Input id="dob" type="date" value={form.dateOfBirth} onChange={set("dateOfBirth")} />
+            </div>
+            <div>
+              <Label htmlFor="blood">Blood Group</Label>
+              <Input id="blood" value={form.bloodGroup} onChange={set("bloodGroup")} placeholder="A+" />
+            </div>
+            <div className="col-span-2">
+              <Label htmlFor="address">Address</Label>
+              <Input id="address" value={form.address} onChange={set("address")} placeholder="123 Main St" />
+            </div>
+            <div>
+              <Label htmlFor="parentName">Parent/Guardian Name</Label>
+              <Input id="parentName" value={form.parentName} onChange={set("parentName")} placeholder="Parent Name" />
+            </div>
+            <div>
+              <Label htmlFor="parentPhone">Parent Phone</Label>
+              <Input id="parentPhone" value={form.parentPhone} onChange={set("parentPhone")} placeholder="+91 ..." />
             </div>
           </div>
           <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
