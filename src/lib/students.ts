@@ -8,6 +8,12 @@ export interface Student {
   phone: string;
   avatar: string;
   profilePicture?: string;
+  photos?: string[];
+  dateOfBirth?: string;
+  bloodGroup?: string;
+  address?: string;
+  parentName?: string;
+  parentPhone?: string;
 }
 
 const AVATARS = [

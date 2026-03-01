@@ -1,15 +1,21 @@
-import { useState } from "react";
-import { Search, Plus, Users, GraduationCap } from "lucide-react";
+import { useState, useRef } from "react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Student, INITIAL_STUDENTS, getRandomAvatar } from "@/lib/students";
 import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
 
-const Index = () => {
-  const [students, setStudents] = useState<Student[]>(INITIAL_STUDENTS);
+interface IndexProps {
+  students: Student[];
+  setStudents: React.Dispatch<React.SetStateAction<Student[]>>;
+}
+
+const Index = ({ students, setStudents }: IndexProps) => {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [classPhoto, setClassPhoto] = useState<string | undefined>();
+  const classPhotoRef = useRef<HTMLInputElement>(null);
 
   const filtered = students.filter(
     (s) =>
@@ -28,6 +34,14 @@ const Index = () => {
 
   const deleteStudent = (id: string) => {
     setStudents((prev) => prev.filter((s) => s.id !== id));
+  };
+
+  const handleClassPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || file.size > 10 * 1024 * 1024) return;
+    const reader = new FileReader();
+    reader.onloadend = () => setClassPhoto(reader.result as string);
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -58,8 +72,33 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Controls */}
       <div className="mx-auto max-w-5xl px-6 py-8">
+        {/* Class Group Photo */}
+        <div className="mb-8">
+          <h2 className="font-display text-2xl text-foreground mb-4">Class Group Photo</h2>
+          {classPhoto ? (
+            <div className="relative group rounded-xl overflow-hidden border border-border shadow-card">
+              <img src={classPhoto} alt="Class group" className="w-full h-64 object-cover" />
+              <button
+                onClick={() => classPhotoRef.current?.click()}
+                className="absolute inset-0 bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+              >
+                <Camera className="h-8 w-8 text-background" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => classPhotoRef.current?.click()}
+              className="w-full h-48 rounded-xl border-2 border-dashed border-border hover:border-accent transition-colors flex flex-col items-center justify-center gap-3 bg-card"
+            >
+              <ImagePlus className="h-10 w-10 text-muted-foreground" />
+              <span className="text-muted-foreground text-sm">Upload a class group photo</span>
+            </button>
+          )}
+          <input ref={classPhotoRef} type="file" accept="image/*" onChange={handleClassPhoto} className="hidden" />
+        </div>
+
+        {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
