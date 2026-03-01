@@ -12,8 +12,12 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
     <div className="group relative bg-card rounded-xl border border-border p-5 shadow-card hover:shadow-elevated transition-shadow duration-300">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-2xl">
-            {student.avatar}
+          <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-2xl overflow-hidden shrink-0">
+            {student.profilePicture ? (
+              <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
+            ) : (
+              student.avatar
+            )}
           </div>
           <div>
             <h3 className="font-display text-lg text-card-foreground leading-tight">{student.name}</h3>
