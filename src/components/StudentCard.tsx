@@ -21,7 +21,7 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
           </div>
           <div>
             <h3 className="font-display text-lg text-card-foreground leading-tight">{student.name}</h3>
-            <span className="text-muted-foreground text-sm font-body">Roll #{student.rollNumber}</span>
+            <span className="text-muted-foreground text-sm font-body">Reg #{student.registerNumber}</span>
           </div>
         </div>
         <Button
