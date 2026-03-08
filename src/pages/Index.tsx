@@ -1,13 +1,17 @@
 import { useState, useRef } from "react";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, Images, FileDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
 import { StudentSelfForm } from "@/components/StudentSelfForm";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { BirthdayReminders } from "@/components/BirthdayReminders";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 import { useClassPhoto, useUploadClassPhoto } from "@/hooks/use-class-photo";
+import { exportStudentsPdf } from "@/lib/export-pdf";
 
 const Index = () => {
   const [search, setSearch] = useState("");
@@ -52,6 +56,7 @@ const Index = () => {
               <span className="text-primary-foreground/60 text-sm hidden sm:inline">
                 {user?.email} {isAdmin ? "(Admin)" : ""}
               </span>
+              <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={signOut} className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10">
                 <LogOut className="h-4 w-4" />
               </Button>
@@ -70,11 +75,35 @@ const Index = () => {
                 {students.length} Friends
               </span>
             </div>
+            <Link to="/chat">
+              <div className="flex items-center gap-2 bg-accent/20 hover:bg-accent/30 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <MessageCircle className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Class Chat</span>
+              </div>
+            </Link>
+            <Link to="/albums">
+              <div className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <Images className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Albums</span>
+              </div>
+            </Link>
+            {isAdmin && (
+              <button
+                onClick={() => exportStudentsPdf(students)}
+                className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer"
+              >
+                <FileDown className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Export PDF</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
 
       <div className="mx-auto max-w-5xl px-6 py-8">
+        {/* Birthday Reminders */}
+        <BirthdayReminders students={students} />
+
         {/* Class Group Photo */}
         <div className="mb-8">
           <h2 className="font-display text-2xl text-foreground mb-4">Class Group Photo</h2>
