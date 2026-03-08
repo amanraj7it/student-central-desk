@@ -15,6 +15,8 @@ import { exportStudentsPdf } from "@/lib/export-pdf";
 
 const Index = () => {
   const [search, setSearch] = useState("");
+  const [filterSection, setFilterSection] = useState("");
+  const [filterBloodGroup, setFilterBloodGroup] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selfFormOpen, setSelfFormOpen] = useState(false);
   const classPhotoRef = useRef<HTMLInputElement>(null);
