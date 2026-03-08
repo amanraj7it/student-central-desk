@@ -65,7 +65,7 @@ export const AddStudentDialog = ({ open, onOpenChange }: AddStudentDialogProps) 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-2xl">Add New Student</DialogTitle>
+          <DialogTitle className="font-display text-2xl">Add New Friend</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="flex flex-col items-center gap-2">
@@ -134,7 +134,7 @@ export const AddStudentDialog = ({ open, onOpenChange }: AddStudentDialogProps) 
             </div>
           </div>
           <Button type="submit" disabled={addStudent.isPending} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-            {addStudent.isPending ? "Adding..." : "Add Student"}
+            {addStudent.isPending ? "Adding..." : "Add Friend"}
           </Button>
         </form>
       </DialogContent>
