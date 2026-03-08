@@ -77,7 +77,7 @@ export const EditStudentDialog = ({ open, onOpenChange, student }: EditStudentDi
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto bg-card border-border">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Edit Details</DialogTitle>
         </DialogHeader>
