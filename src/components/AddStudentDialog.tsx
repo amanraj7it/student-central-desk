@@ -3,37 +3,59 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Student } from "@/lib/students";
 import { Camera, User } from "lucide-react";
+import { useAddStudent } from "@/hooks/use-students";
 
 interface AddStudentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAdd: (data: Omit<Student, "id" | "avatar">) => void;
 }
 
 const EMPTY = { name: "", registerNumber: "", email: "", grade: "", section: "", phone: "", dateOfBirth: "", bloodGroup: "", address: "", parentName: "", parentPhone: "" };
 
-export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialogProps) => {
+export const AddStudentDialog = ({ open, onOpenChange }: AddStudentDialogProps) => {
   const [form, setForm] = useState(EMPTY);
-  const [profilePicture, setProfilePicture] = useState<string | undefined>();
+  const [profileFile, setProfileFile] = useState<File | undefined>();
+  const [preview, setPreview] = useState<string | undefined>();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const addStudent = useAddStudent();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 5 * 1024 * 1024) return; // 5MB limit
+    if (!file || file.size > 5 * 1024 * 1024) return;
+    setProfileFile(file);
     const reader = new FileReader();
-    reader.onloadend = () => setProfilePicture(reader.result as string);
+    reader.onloadend = () => setPreview(reader.result as string);
     reader.readAsDataURL(file);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.registerNumber) return;
-    onAdd({ ...form, profilePicture });
-    setForm(EMPTY);
-    setProfilePicture(undefined);
+    addStudent.mutate(
+      {
+        name: form.name,
+        register_number: form.registerNumber,
+        email: form.email || undefined,
+        grade: form.grade || undefined,
+        section: form.section || undefined,
+        phone: form.phone || undefined,
+        date_of_birth: form.dateOfBirth || undefined,
+        blood_group: form.bloodGroup || undefined,
+        address: form.address || undefined,
+        parent_name: form.parentName || undefined,
+        parent_phone: form.parentPhone || undefined,
+        profile_picture_file: profileFile,
+      },
+      {
+        onSuccess: () => {
+          setForm(EMPTY);
+          setProfileFile(undefined);
+          setPreview(undefined);
+          onOpenChange(false);
+        },
+      }
+    );
   };
 
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -46,15 +68,14 @@ export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialog
           <DialogTitle className="font-display text-2xl">Add New Student</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-          {/* Profile Picture Upload */}
           <div className="flex flex-col items-center gap-2">
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               className="relative h-20 w-20 rounded-full bg-secondary border-2 border-dashed border-border hover:border-accent transition-colors flex items-center justify-center overflow-hidden group"
             >
-              {profilePicture ? (
-                <img src={profilePicture} alt="Preview" className="h-full w-full object-cover" />
+              {preview ? (
+                <img src={preview} alt="Preview" className="h-full w-full object-cover" />
               ) : (
                 <User className="h-8 w-8 text-muted-foreground group-hover:text-accent transition-colors" />
               )}
@@ -63,13 +84,7 @@ export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialog
               </div>
             </button>
             <span className="text-xs text-muted-foreground">Click to upload photo</span>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
+            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -118,8 +133,8 @@ export const AddStudentDialog = ({ open, onOpenChange, onAdd }: AddStudentDialog
               <Input id="parentPhone" value={form.parentPhone} onChange={set("parentPhone")} placeholder="+91 ..." />
             </div>
           </div>
-          <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-            Add Student
+          <Button type="submit" disabled={addStudent.isPending} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+            {addStudent.isPending ? "Adding..." : "Add Student"}
           </Button>
         </form>
       </DialogContent>
