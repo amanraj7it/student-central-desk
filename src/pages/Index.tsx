@@ -1,21 +1,26 @@
 import { useState, useRef } from "react";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut } from "lucide-react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
+import { StudentSelfForm } from "@/components/StudentSelfForm";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 
 const Index = () => {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selfFormOpen, setSelfFormOpen] = useState(false);
   const [classPhoto, setClassPhoto] = useState<string | undefined>();
   const classPhotoRef = useRef<HTMLInputElement>(null);
 
   const { data: students = [], isLoading } = useStudents();
   const deleteStudent = useDeleteStudent();
   const { user, isTeacher, signOut } = useAuth();
+
+  // Check if current student already has a profile
+  const hasOwnProfile = !isTeacher && students.some((s) => s.user_id === user?.id);
 
   const filtered = students.filter(
     (s) =>
@@ -116,6 +121,12 @@ const Index = () => {
               Add Student
             </Button>
           )}
+          {!isTeacher && !hasOwnProfile && (
+            <Button onClick={() => setSelfFormOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
+              <UserPlus className="h-4 w-4 mr-2" />
+              Add My Info
+            </Button>
+          )}
         </div>
 
         {/* Student Grid */}
@@ -141,6 +152,7 @@ const Index = () => {
       </div>
 
       {isTeacher && <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />}
+      {!isTeacher && <StudentSelfForm open={selfFormOpen} onOpenChange={setSelfFormOpen} />}
     </div>
   );
 };
