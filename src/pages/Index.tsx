@@ -225,6 +225,14 @@ const Index = () => {
 
       {isAdmin && <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />}
       {!isAdmin && <StudentSelfForm open={selfFormOpen} onOpenChange={setSelfFormOpen} />}
+
+      <footer className="border-t border-border bg-card py-6 mt-12">
+        <div className="mx-auto max-w-5xl px-6 text-center">
+          <p className="text-muted-foreground text-sm">
+            © {new Date().getFullYear()} My Classroom. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
