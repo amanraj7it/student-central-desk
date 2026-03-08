@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle } from "lucide-react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, Images, FileDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
@@ -11,6 +11,7 @@ import { BirthdayReminders } from "@/components/BirthdayReminders";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 import { useClassPhoto, useUploadClassPhoto } from "@/hooks/use-class-photo";
+import { exportStudentsPdf } from "@/lib/export-pdf";
 
 const Index = () => {
   const [search, setSearch] = useState("");
@@ -80,6 +81,21 @@ const Index = () => {
                 <span className="text-primary-foreground text-sm font-medium">Class Chat</span>
               </div>
             </Link>
+            <Link to="/albums">
+              <div className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <Images className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Albums</span>
+              </div>
+            </Link>
+            {isAdmin && (
+              <button
+                onClick={() => exportStudentsPdf(students)}
+                className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer"
+              >
+                <FileDown className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Export PDF</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
