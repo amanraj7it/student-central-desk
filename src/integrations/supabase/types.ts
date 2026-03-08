@@ -14,7 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      student_photos: {
+        Row: {
+          created_at: string
+          id: string
+          photo_url: string
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          photo_url: string
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          photo_url?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_photos_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      students: {
+        Row: {
+          address: string | null
+          avatar: string | null
+          blood_group: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string | null
+          grade: string | null
+          id: string
+          name: string
+          parent_name: string | null
+          parent_phone: string | null
+          phone: string | null
+          profile_picture_url: string | null
+          register_number: string
+          section: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          avatar?: string | null
+          blood_group?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string | null
+          grade?: string | null
+          id?: string
+          name: string
+          parent_name?: string | null
+          parent_phone?: string | null
+          phone?: string | null
+          profile_picture_url?: string | null
+          register_number: string
+          section?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          avatar?: string | null
+          blood_group?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string | null
+          grade?: string | null
+          id?: string
+          name?: string
+          parent_name?: string | null
+          parent_phone?: string | null
+          phone?: string | null
+          profile_picture_url?: string | null
+          register_number?: string
+          section?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
