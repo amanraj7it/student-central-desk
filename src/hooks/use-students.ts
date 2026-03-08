@@ -18,6 +18,8 @@ export interface Student {
   parent_name: string | null;
   user_id: string | null;
   parent_phone: string | null;
+  specialization: string | null;
+  hobby: string | null;
   photos?: string[];
 }
 

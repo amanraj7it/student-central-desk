@@ -12,7 +12,7 @@ interface StudentSelfFormProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const EMPTY = { name: "", registerNumber: "", email: "", grade: "", section: "", phone: "", dateOfBirth: "", bloodGroup: "", address: "", parentName: "", parentPhone: "" };
+const EMPTY = { name: "", registerNumber: "", email: "", grade: "", section: "", phone: "", dateOfBirth: "", bloodGroup: "", address: "", specialization: "", hobby: "" };
 
 export const StudentSelfForm = ({ open, onOpenChange }: StudentSelfFormProps) => {
   const [form, setForm] = useState(EMPTY);
@@ -45,8 +45,8 @@ export const StudentSelfForm = ({ open, onOpenChange }: StudentSelfFormProps) =>
         date_of_birth: form.dateOfBirth || undefined,
         blood_group: form.bloodGroup || undefined,
         address: form.address || undefined,
-        parent_name: form.parentName || undefined,
-        parent_phone: form.parentPhone || undefined,
+        specialization: form.specialization || undefined,
+        hobby: form.hobby || undefined,
         profile_picture_file: profileFile,
         user_id: user?.id,
       },
@@ -123,13 +123,13 @@ export const StudentSelfForm = ({ open, onOpenChange }: StudentSelfFormProps) =>
               <Label htmlFor="address">Address</Label>
               <Input id="address" value={form.address} onChange={set("address")} placeholder="123 Main St" />
             </div>
-            <div>
-              <Label htmlFor="parentName">Parent/Guardian Name</Label>
-              <Input id="parentName" value={form.parentName} onChange={set("parentName")} placeholder="Parent Name" />
+            <div className="col-span-2">
+              <Label htmlFor="specialization">Specialization</Label>
+              <Input id="specialization" value={form.specialization} onChange={set("specialization")} placeholder="e.g. Computer Science" />
             </div>
-            <div>
-              <Label htmlFor="parentPhone">Parent Phone</Label>
-              <Input id="parentPhone" value={form.parentPhone} onChange={set("parentPhone")} placeholder="+91 ..." />
+            <div className="col-span-2">
+              <Label htmlFor="hobby">Hobby</Label>
+              <Input id="hobby" value={form.hobby} onChange={set("hobby")} placeholder="e.g. Reading, Cricket" />
             </div>
           </div>
           <Button type="submit" disabled={addStudent.isPending} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">

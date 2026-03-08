@@ -22,8 +22,8 @@ export const EditStudentDialog = ({ open, onOpenChange, student }: EditStudentDi
     date_of_birth: "",
     blood_group: "",
     address: "",
-    parent_name: "",
-    parent_phone: "",
+    specialization: "",
+    hobby: "",
   });
   const updateStudent = useUpdateStudent();
 
@@ -39,8 +39,8 @@ export const EditStudentDialog = ({ open, onOpenChange, student }: EditStudentDi
         date_of_birth: student.date_of_birth || "",
         blood_group: student.blood_group || "",
         address: student.address || "",
-        parent_name: student.parent_name || "",
-        parent_phone: student.parent_phone || "",
+        specialization: student.specialization || "",
+        hobby: student.hobby || "",
       });
     }
   }, [open, student]);
@@ -60,8 +60,8 @@ export const EditStudentDialog = ({ open, onOpenChange, student }: EditStudentDi
         date_of_birth: form.date_of_birth || null,
         blood_group: form.blood_group || null,
         address: form.address || null,
-        parent_name: form.parent_name || null,
-        parent_phone: form.parent_phone || null,
+        specialization: form.specialization || null,
+        hobby: form.hobby || null,
       },
       {
         onSuccess: () => {
@@ -119,13 +119,13 @@ export const EditStudentDialog = ({ open, onOpenChange, student }: EditStudentDi
               <Label htmlFor="edit-address">Address</Label>
               <Input id="edit-address" value={form.address} onChange={set("address")} />
             </div>
-            <div>
-              <Label htmlFor="edit-parent">Parent/Guardian Name</Label>
-              <Input id="edit-parent" value={form.parent_name} onChange={set("parent_name")} />
+            <div className="col-span-2">
+              <Label htmlFor="edit-specialization">Specialization</Label>
+              <Input id="edit-specialization" value={form.specialization} onChange={set("specialization")} placeholder="e.g. Computer Science, Arts" />
             </div>
-            <div>
-              <Label htmlFor="edit-pphone">Parent Phone</Label>
-              <Input id="edit-pphone" value={form.parent_phone} onChange={set("parent_phone")} />
+            <div className="col-span-2">
+              <Label htmlFor="edit-hobby">Hobby</Label>
+              <Input id="edit-hobby" value={form.hobby} onChange={set("hobby")} placeholder="e.g. Reading, Cricket, Painting" />
             </div>
           </div>
           <Button type="submit" disabled={updateStudent.isPending} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
