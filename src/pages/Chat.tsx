@@ -62,18 +62,33 @@ const Chat = () => {
           ) : (
             messages.map((msg) => {
               const isMe = msg.user_id === user?.id;
+              const sender = students.find((s) => s.user_id === msg.user_id);
+              const senderName = sender?.name || msg.user_name || msg.user_email;
+              const senderAvatar = sender?.profile_picture_url;
+              const senderEmoji = sender?.avatar || "👤";
+
               return (
-                <div key={msg.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+                <div key={msg.id} className={`flex items-end gap-2 ${isMe ? "justify-end" : "justify-start"}`}>
+                  {/* Avatar on left for others */}
+                  {!isMe && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden bg-secondary flex items-center justify-center border border-border">
+                      {senderAvatar ? (
+                        <img src={senderAvatar} alt={senderName} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-sm">{senderEmoji}</span>
+                      )}
+                    </div>
+                  )}
                   <div
-                    className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${
+                    className={`max-w-[70%] rounded-2xl px-4 py-2.5 ${
                       isMe
                         ? "bg-accent text-accent-foreground rounded-br-md"
                         : "bg-card text-card-foreground border border-border rounded-bl-md"
                     }`}
                   >
                     {!isMe && (
-                      <p className="text-xs font-medium text-accent mb-1">
-                        {msg.user_name || msg.user_email}
+                      <p className="text-xs font-semibold text-accent mb-1">
+                        {senderName}
                       </p>
                     )}
                     <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
@@ -81,6 +96,16 @@ const Chat = () => {
                       {format(new Date(msg.created_at), "h:mm a")}
                     </p>
                   </div>
+                  {/* Avatar on right for me */}
+                  {isMe && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden bg-secondary flex items-center justify-center border border-border">
+                      {senderAvatar ? (
+                        <img src={senderAvatar} alt="You" className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-sm">{senderEmoji}</span>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })
