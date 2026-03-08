@@ -3,6 +3,7 @@ import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users } from
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { PhotoCropDialog } from "@/components/PhotoCropDialog";
 import { useStudents, useAddStudentPhoto, useUpdateProfilePicture } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -12,6 +13,8 @@ const StudentProfile = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const profilePicInputRef = useRef<HTMLInputElement>(null);
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
+  const [cropFile, setCropFile] = useState<File | null>(null);
+  const [cropOpen, setCropOpen] = useState(false);
 
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
@@ -80,7 +83,8 @@ const StudentProfile = () => {
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (!file || file.size > 5 * 1024 * 1024) return;
-                      updateProfilePic.mutate({ studentId: student.id, file });
+                      setCropFile(file);
+                      setCropOpen(true);
                       e.target.value = "";
                     }}
                   />
