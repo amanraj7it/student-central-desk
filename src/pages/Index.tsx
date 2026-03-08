@@ -15,6 +15,8 @@ import { exportStudentsPdf } from "@/lib/export-pdf";
 
 const Index = () => {
   const [search, setSearch] = useState("");
+  const [filterSection, setFilterSection] = useState("");
+  const [filterBloodGroup, setFilterBloodGroup] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selfFormOpen, setSelfFormOpen] = useState(false);
   const classPhotoRef = useRef<HTMLInputElement>(null);
@@ -28,11 +30,16 @@ const Index = () => {
   // Check if current user already has a profile
   const hasOwnProfile = !isAdmin && students.some((s) => s.user_id === user?.id);
 
+  const sections = [...new Set(students.map((s) => s.section).filter(Boolean))].sort();
+  const bloodGroups = [...new Set(students.map((s) => s.blood_group).filter(Boolean))].sort();
+
   const filtered = students.filter(
     (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.register_number.includes(search) ||
-      (s.email || "").toLowerCase().includes(search.toLowerCase())
+      (s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.register_number.includes(search) ||
+        (s.email || "").toLowerCase().includes(search.toLowerCase())) &&
+      (!filterSection || s.section === filterSection) &&
+      (!filterBloodGroup || s.blood_group === filterBloodGroup)
   );
 
   const handleClassPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,15 +147,37 @@ const Index = () => {
         </div>
 
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search by name, register number, or email…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-card"
-            />
+        <div className="flex flex-col gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search by name, register number, or email…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-10 bg-card"
+              />
+            </div>
+            <select
+              value={filterSection}
+              onChange={(e) => setFilterSection(e.target.value)}
+              className="h-10 rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="">All Sections</option>
+              {sections.map((s) => (
+                <option key={s} value={s!}>{`Section ${s}`}</option>
+              ))}
+            </select>
+            <select
+              value={filterBloodGroup}
+              onChange={(e) => setFilterBloodGroup(e.target.value)}
+              className="h-10 rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="">All Blood Groups</option>
+              {bloodGroups.map((bg) => (
+                <option key={bg} value={bg!}>{bg}</option>
+              ))}
+            </select>
           </div>
           {isAdmin && (
             <Button onClick={() => setDialogOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
