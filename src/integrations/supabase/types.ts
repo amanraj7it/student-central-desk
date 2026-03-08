@@ -159,6 +159,7 @@ export type Database = {
           date_of_birth: string | null
           email: string | null
           grade: string | null
+          hobby: string | null
           id: string
           name: string
           parent_name: string | null
@@ -167,6 +168,7 @@ export type Database = {
           profile_picture_url: string | null
           register_number: string
           section: string | null
+          specialization: string | null
           updated_at: string
           user_id: string | null
         }
@@ -178,6 +180,7 @@ export type Database = {
           date_of_birth?: string | null
           email?: string | null
           grade?: string | null
+          hobby?: string | null
           id?: string
           name: string
           parent_name?: string | null
@@ -186,6 +189,7 @@ export type Database = {
           profile_picture_url?: string | null
           register_number: string
           section?: string | null
+          specialization?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -197,6 +201,7 @@ export type Database = {
           date_of_birth?: string | null
           email?: string | null
           grade?: string | null
+          hobby?: string | null
           id?: string
           name?: string
           parent_name?: string | null
@@ -205,6 +210,7 @@ export type Database = {
           profile_picture_url?: string | null
           register_number?: string
           section?: string | null
+          specialization?: string | null
           updated_at?: string
           user_id?: string | null
         }

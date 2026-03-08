@@ -18,6 +18,8 @@ export interface Student {
   parent_name: string | null;
   user_id: string | null;
   parent_phone: string | null;
+  specialization: string | null;
+  hobby: string | null;
   photos?: string[];
 }
 
@@ -71,6 +73,8 @@ export function useAddStudent() {
       address?: string;
       parent_name?: string;
       parent_phone?: string;
+      specialization?: string;
+      hobby?: string;
       profile_picture_file?: File;
       user_id?: string;
     }) => {

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Pencil, Trash2, Star, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -160,13 +160,16 @@ const StudentProfile = () => {
                   <span className="text-muted-foreground">Blood Group: {student.blood_group}</span>
                 </div>
               )}
-              {student.parent_name && (
+              {student.specialization && (
                 <div className="flex items-center gap-3 text-sm">
-                  <Users className="h-4 w-4 text-accent" />
-                  <span className="text-muted-foreground">
-                    Parent: {student.parent_name}
-                    {student.parent_phone && ` (${student.parent_phone})`}
-                  </span>
+                  <Star className="h-4 w-4 text-accent" />
+                  <span className="text-muted-foreground">Specialization: {student.specialization}</span>
+                </div>
+              )}
+              {student.hobby && (
+                <div className="flex items-center gap-3 text-sm">
+                  <Sparkles className="h-4 w-4 text-accent" />
+                  <span className="text-muted-foreground">Hobby: {student.hobby}</span>
                 </div>
               )}
             </div>
