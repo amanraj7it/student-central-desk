@@ -49,6 +49,33 @@ export type Database = {
           },
         ]
       }
+      announcements: {
+        Row: {
+          content: string
+          created_at: string
+          created_by: string
+          id: string
+          is_pinned: boolean
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          created_by: string
+          id?: string
+          is_pinned?: boolean
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_pinned?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
       class_photos: {
         Row: {
           created_at: string
@@ -118,6 +145,65 @@ export type Database = {
           description?: string | null
           id?: string
           title?: string
+        }
+        Relationships: []
+      }
+      poll_votes: {
+        Row: {
+          created_at: string
+          id: string
+          option_index: number
+          poll_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          option_index: number
+          poll_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          option_index?: number
+          poll_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poll_votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      polls: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          is_closed: boolean
+          options: Json
+          question: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          is_closed?: boolean
+          options?: Json
+          question: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_closed?: boolean
+          options?: Json
+          question?: string
         }
         Relationships: []
       }
