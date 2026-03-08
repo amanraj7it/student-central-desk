@@ -1,5 +1,5 @@
 import { Trash2, Mail, Phone } from "lucide-react";
-import { Student } from "@/lib/students";
+import { Student } from "@/hooks/use-students";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -19,15 +19,15 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-2xl overflow-hidden shrink-0">
-            {student.profilePicture ? (
-              <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
+            {student.profile_picture_url ? (
+              <img src={student.profile_picture_url} alt={student.name} className="h-full w-full object-cover" />
             ) : (
               student.avatar
             )}
           </div>
           <div>
             <h3 className="font-display text-lg text-card-foreground leading-tight">{student.name}</h3>
-            <span className="text-muted-foreground text-sm font-body">Reg #{student.registerNumber}</span>
+            <span className="text-muted-foreground text-sm font-body">Reg #{student.register_number}</span>
           </div>
         </div>
         <Button
@@ -43,11 +43,11 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Mail className="h-3.5 w-3.5" />
-          <span className="truncate">{student.email}</span>
+          <span className="truncate">{student.email || "No email"}</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Phone className="h-3.5 w-3.5" />
-          <span>{student.phone}</span>
+          <span>{student.phone || "No phone"}</span>
         </div>
       </div>
 

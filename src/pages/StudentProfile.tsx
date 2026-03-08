@@ -1,21 +1,18 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Student } from "@/lib/students";
 import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useStudents, useAddStudentPhoto } from "@/hooks/use-students";
 
-interface StudentProfileProps {
-  students: Student[];
-  onUpdateStudent: (student: Student) => void;
-}
-
-const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
+const StudentProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
 
+  const { data: students = [] } = useStudents();
+  const addPhoto = useAddStudentPhoto();
   const student = students.find((s) => s.id === id);
 
   if (!student) {
@@ -34,15 +31,7 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
   const handleAddPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || file.size > 5 * 1024 * 1024) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const photo = reader.result as string;
-      onUpdateStudent({
-        ...student,
-        photos: [...(student.photos || []), photo],
-      });
-    };
-    reader.readAsDataURL(file);
+    addPhoto.mutate({ studentId: student.id, file });
     e.target.value = "";
   };
 
@@ -50,7 +39,6 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-primary px-6 py-8">
         <div className="mx-auto max-w-4xl">
           <Button
@@ -62,8 +50,8 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
           </Button>
           <div className="flex items-center gap-6">
             <div className="h-24 w-24 rounded-full bg-secondary flex items-center justify-center text-4xl overflow-hidden shrink-0 border-4 border-primary-foreground/20">
-              {student.profilePicture ? (
-                <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
+              {student.profile_picture_url ? (
+                <img src={student.profile_picture_url} alt={student.name} className="h-full w-full object-cover" />
               ) : (
                 student.avatar
               )}
@@ -71,7 +59,7 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
             <div>
               <h1 className="font-display text-3xl md:text-4xl text-primary-foreground">{student.name}</h1>
               <p className="text-primary-foreground/60 font-body mt-1">
-                Reg #{student.registerNumber} · Grade {student.grade} · Section {student.section}
+                Reg #{student.register_number} · Grade {student.grade} · Section {student.section}
               </p>
             </div>
           </div>
@@ -79,7 +67,6 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
       </header>
 
       <div className="mx-auto max-w-4xl px-6 py-8 space-y-8">
-        {/* Contact & Details */}
         <div className="grid gap-6 md:grid-cols-2">
           <div className="bg-card rounded-xl border border-border p-6 shadow-card space-y-4">
             <h2 className="font-display text-xl text-card-foreground">Contact Information</h2>
@@ -110,24 +97,24 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
                   Grade {student.grade} · Section {student.section}
                 </span>
               </div>
-              {student.dateOfBirth && (
+              {student.date_of_birth && (
                 <div className="flex items-center gap-3 text-sm">
                   <Heart className="h-4 w-4 text-accent" />
-                  <span className="text-muted-foreground">DOB: {student.dateOfBirth}</span>
+                  <span className="text-muted-foreground">DOB: {student.date_of_birth}</span>
                 </div>
               )}
-              {student.bloodGroup && (
+              {student.blood_group && (
                 <div className="flex items-center gap-3 text-sm">
                   <Heart className="h-4 w-4 text-accent" />
-                  <span className="text-muted-foreground">Blood Group: {student.bloodGroup}</span>
+                  <span className="text-muted-foreground">Blood Group: {student.blood_group}</span>
                 </div>
               )}
-              {student.parentName && (
+              {student.parent_name && (
                 <div className="flex items-center gap-3 text-sm">
                   <Users className="h-4 w-4 text-accent" />
                   <span className="text-muted-foreground">
-                    Parent: {student.parentName}
-                    {student.parentPhone && ` (${student.parentPhone})`}
+                    Parent: {student.parent_name}
+                    {student.parent_phone && ` (${student.parent_phone})`}
                   </span>
                 </div>
               )}
@@ -149,13 +136,7 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
             >
               <Plus className="h-4 w-4 mr-1" /> Add Photo
             </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleAddPhoto}
-              className="hidden"
-            />
+            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAddPhoto} className="hidden" />
           </div>
 
           {allPhotos.length === 0 ? (
@@ -179,7 +160,6 @@ const StudentProfile = ({ students, onUpdateStudent }: StudentProfileProps) => {
         </div>
       </div>
 
-      {/* Lightbox */}
       <Dialog open={!!lightboxPhoto} onOpenChange={() => setLightboxPhoto(null)}>
         <DialogContent className="max-w-3xl p-2">
           {lightboxPhoto && (

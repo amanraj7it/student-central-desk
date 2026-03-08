@@ -2,39 +2,25 @@ import { useState, useRef } from "react";
 import { Search, Plus, Users, GraduationCap, Camera, ImagePlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Student, INITIAL_STUDENTS, getRandomAvatar } from "@/lib/students";
 import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
+import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 
-interface IndexProps {
-  students: Student[];
-  setStudents: React.Dispatch<React.SetStateAction<Student[]>>;
-}
-
-const Index = ({ students, setStudents }: IndexProps) => {
+const Index = () => {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [classPhoto, setClassPhoto] = useState<string | undefined>();
   const classPhotoRef = useRef<HTMLInputElement>(null);
 
+  const { data: students = [], isLoading } = useStudents();
+  const deleteStudent = useDeleteStudent();
+
   const filtered = students.filter(
     (s) =>
       s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.registerNumber.includes(search) ||
-      s.email.toLowerCase().includes(search.toLowerCase())
+      s.register_number.includes(search) ||
+      (s.email || "").toLowerCase().includes(search.toLowerCase())
   );
-
-  const addStudent = (data: Omit<Student, "id" | "avatar">) => {
-    setStudents((prev) => [
-      ...prev,
-      { ...data, id: Date.now().toString(), avatar: getRandomAvatar() },
-    ]);
-    setDialogOpen(false);
-  };
-
-  const deleteStudent = (id: string) => {
-    setStudents((prev) => prev.filter((s) => s.id !== id));
-  };
 
   const handleClassPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -46,7 +32,6 @@ const Index = ({ students, setStudents }: IndexProps) => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Header */}
       <header className="border-b border-border bg-primary px-6 py-12 md:py-16">
         <div className="mx-auto max-w-5xl">
           <div className="flex items-center gap-3 mb-2">
@@ -116,20 +101,24 @@ const Index = ({ students, setStudents }: IndexProps) => {
         </div>
 
         {/* Student Grid */}
-        {filtered.length === 0 ? (
+        {isLoading ? (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-lg">Loading students...</p>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-muted-foreground text-lg">No students found.</p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((student) => (
-              <StudentCard key={student.id} student={student} onDelete={deleteStudent} />
+              <StudentCard key={student.id} student={student} onDelete={(id) => deleteStudent.mutate(id)} />
             ))}
           </div>
         )}
       </div>
 
-      <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addStudent} />
+      <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 };
