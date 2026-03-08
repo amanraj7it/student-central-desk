@@ -103,10 +103,13 @@ const StudentProfile = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => setEditOpen(true)}
-                  className="mt-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                  className="mt-2 border-accent/50 bg-accent/10 text-primary-foreground hover:bg-accent/20"
                 >
                   <Pencil className="h-3.5 w-3.5 mr-1.5" /> Edit Details
                 </Button>
+              )}
+              {!canEdit && user && (
+                <p className="mt-2 text-xs text-primary-foreground/40">Only the profile owner or a teacher can edit</p>
               )}
             </div>
           </div>
