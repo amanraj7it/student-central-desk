@@ -1,0 +1,9 @@
+{
+  "appId": "app.lovable.4bb42a02c6ca43148f0cafc14c6845ff",
+  "appName": "My Classroom",
+  "webDir": "dist",
+  "server": {
+    "url": "https://4bb42a02-c6ca-4314-8f0c-afc14c6845ff.lovableproject.com?forceHideBadge=true",
+    "cleartext": true
+  }
+}
