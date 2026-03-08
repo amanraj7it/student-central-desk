@@ -94,7 +94,7 @@ const StudentProfile = () => {
           </div>
 
           <div className="bg-card rounded-xl border border-border p-6 shadow-card space-y-4">
-            <h2 className="font-display text-xl text-card-foreground">Student Details</h2>
+            <h2 className="font-display text-xl text-card-foreground">Friend Details</h2>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm">
                 <User className="h-4 w-4 text-accent" />
