@@ -3,17 +3,19 @@ import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users } from
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useStudents, useAddStudentPhoto } from "@/hooks/use-students";
+import { useStudents, useAddStudentPhoto, useUpdateProfilePicture } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 
 const StudentProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const profilePicInputRef = useRef<HTMLInputElement>(null);
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
 
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
+  const updateProfilePic = useUpdateProfilePicture();
   const { user, isAdmin } = useAuth();
   const student = students.find((s) => s.id === id);
 
@@ -54,11 +56,35 @@ const StudentProfile = () => {
             <ArrowLeft className="h-4 w-4 mr-2" /> Back to Classroom
           </Button>
           <div className="flex items-center gap-6">
-            <div className="h-24 w-24 rounded-full bg-secondary flex items-center justify-center text-4xl overflow-hidden shrink-0 border-4 border-primary-foreground/20">
-              {student.profile_picture_url ? (
-                <img src={student.profile_picture_url} alt={student.name} className="h-full w-full object-cover" />
-              ) : (
-                student.avatar
+            <div className="relative group">
+              <div className="h-24 w-24 rounded-full bg-secondary flex items-center justify-center text-4xl overflow-hidden shrink-0 border-4 border-primary-foreground/20">
+                {student.profile_picture_url ? (
+                  <img src={student.profile_picture_url} alt={student.name} className="h-full w-full object-cover" />
+                ) : (
+                  student.avatar
+                )}
+              </div>
+              {canEdit && (
+                <>
+                  <button
+                    onClick={() => profilePicInputRef.current?.click()}
+                    className="absolute inset-0 rounded-full bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <Camera className="h-6 w-6 text-background" />
+                  </button>
+                  <input
+                    ref={profilePicInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (!file || file.size > 5 * 1024 * 1024) return;
+                      updateProfilePic.mutate({ studentId: student.id, file });
+                      e.target.value = "";
+                    }}
+                  />
+                </>
               )}
             </div>
             <div>
