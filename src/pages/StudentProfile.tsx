@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users } from "lucide-react";
+import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { PhotoCropDialog } from "@/components/PhotoCropDialog";
 import { useStudents, useAddStudentPhoto, useUpdateProfilePicture } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
+import { EditStudentDialog } from "@/components/EditStudentDialog";
 
 const StudentProfile = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const StudentProfile = () => {
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
   const [cropFile, setCropFile] = useState<File | null>(null);
   const [cropOpen, setCropOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
@@ -96,6 +98,16 @@ const StudentProfile = () => {
               <p className="text-primary-foreground/60 font-body mt-1">
                 Reg #{student.register_number} · Grade {student.grade} · Section {student.section}
               </p>
+              {canEdit && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditOpen(true)}
+                  className="mt-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <Pencil className="h-3.5 w-3.5 mr-1.5" /> Edit Details
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -215,6 +227,8 @@ const StudentProfile = () => {
           updateProfilePic.mutate({ studentId: student.id, file: croppedFile });
         }}
       />
+
+      <EditStudentDialog open={editOpen} onOpenChange={setEditOpen} student={student} />
     </div>
   );
 };
