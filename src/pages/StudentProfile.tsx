@@ -206,6 +206,15 @@ const StudentProfile = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <PhotoCropDialog
+        open={cropOpen}
+        onOpenChange={setCropOpen}
+        imageFile={cropFile}
+        onCropComplete={(croppedFile) => {
+          updateProfilePic.mutate({ studentId: student.id, file: croppedFile });
+        }}
+      />
     </div>
   );
 };
