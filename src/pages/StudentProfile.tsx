@@ -250,6 +250,8 @@ const StudentProfile = () => {
       />
 
       <EditStudentDialog open={editOpen} onOpenChange={setEditOpen} student={student} />
+
+      <ProfileQRCode open={qrOpen} onOpenChange={setQrOpen} studentId={student.id} studentName={student.name} />
     </div>
   );
 };
