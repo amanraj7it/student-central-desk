@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users, Pencil } from "lucide-react";
+import { ArrowLeft, Mail, Phone, User, Camera, Plus, MapPin, Heart, Users, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { PhotoCropDialog } from "@/components/PhotoCropDialog";
-import { useStudents, useAddStudentPhoto, useUpdateProfilePicture } from "@/hooks/use-students";
+import { useStudents, useAddStudentPhoto, useUpdateProfilePicture, useDeleteStudentPhoto } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 import { EditStudentDialog } from "@/components/EditStudentDialog";
 
@@ -21,6 +21,7 @@ const StudentProfile = () => {
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
   const updateProfilePic = useUpdateProfilePicture();
+  const deletePhoto = useDeleteStudentPhoto();
   const { user, isAdmin } = useAuth();
   const student = students.find((s) => s.id === id);
 
@@ -201,13 +202,22 @@ const StudentProfile = () => {
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {allPhotos.map((photo, index) => (
-                <button
-                  key={index}
-                  onClick={() => setLightboxPhoto(photo)}
-                  className="aspect-square rounded-lg overflow-hidden border border-border hover:ring-2 hover:ring-accent transition-all"
-                >
-                  <img src={photo} alt={`Photo ${index + 1}`} className="h-full w-full object-cover" />
-                </button>
+                <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-border hover:ring-2 hover:ring-accent transition-all">
+                  <button
+                    onClick={() => setLightboxPhoto(photo)}
+                    className="w-full h-full"
+                  >
+                    <img src={photo} alt={`Photo ${index + 1}`} className="h-full w-full object-cover" />
+                  </button>
+                  {canEdit && (
+                    <button
+                      onClick={() => deletePhoto.mutate({ photoUrl: photo })}
+                      className="absolute top-1.5 right-1.5 h-7 w-7 rounded-full bg-destructive/90 text-destructive-foreground opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           )}
