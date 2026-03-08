@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, Images, FileDown } from "lucide-react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, Images, FileDown, UserCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
@@ -68,7 +68,13 @@ const Index = () => {
           <p className="text-primary-foreground/60 font-body text-lg">
             Manage and track all friend information in one place.
           </p>
-          <div className="flex items-center gap-4 mt-8">
+          <div className="flex items-center gap-4 mt-8 flex-wrap">
+            <Link to="/my-profile">
+              <div className="flex items-center gap-2 bg-accent/20 hover:bg-accent/30 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <UserCircle className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">My Profile</span>
+              </div>
+            </Link>
             <div className="flex items-center gap-2 bg-primary-foreground/10 rounded-lg px-4 py-2">
               <Users className="h-4 w-4 text-accent" />
               <span className="text-primary-foreground text-sm font-medium">
@@ -76,7 +82,7 @@ const Index = () => {
               </span>
             </div>
             <Link to="/chat">
-              <div className="flex items-center gap-2 bg-accent/20 hover:bg-accent/30 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+              <div className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer">
                 <MessageCircle className="h-4 w-4 text-accent" />
                 <span className="text-primary-foreground text-sm font-medium">Class Chat</span>
               </div>
