@@ -61,13 +61,13 @@ const Index = () => {
             My Classroom
           </h1>
           <p className="text-primary-foreground/60 font-body text-lg">
-            Manage and track all student information in one place.
+            Manage and track all friend information in one place.
           </p>
           <div className="flex items-center gap-4 mt-8">
             <div className="flex items-center gap-2 bg-primary-foreground/10 rounded-lg px-4 py-2">
               <Users className="h-4 w-4 text-accent" />
               <span className="text-primary-foreground text-sm font-medium">
-                {students.length} Students
+                {students.length} Friends
               </span>
             </div>
           </div>
@@ -118,7 +118,7 @@ const Index = () => {
           {isAdmin && (
             <Button onClick={() => setDialogOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
               <Plus className="h-4 w-4 mr-2" />
-              Add Student
+              Add Friend
             </Button>
           )}
           {!isAdmin && !hasOwnProfile && (
@@ -132,11 +132,11 @@ const Index = () => {
         {/* Student Grid */}
         {isLoading ? (
           <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg">Loading students...</p>
+            <p className="text-muted-foreground text-lg">Loading friends...</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg">No students found.</p>
+            <p className="text-muted-foreground text-lg">No friends found.</p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
