@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus } from "lucide-react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
+import { useAuth } from "@/hooks/use-auth";
 
 const Index = () => {
   const [search, setSearch] = useState("");
@@ -14,6 +15,7 @@ const Index = () => {
 
   const { data: students = [], isLoading } = useStudents();
   const deleteStudent = useDeleteStudent();
+  const { user, isTeacher, signOut } = useAuth();
 
   const filtered = students.filter(
     (s) =>
@@ -34,11 +36,21 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-primary px-6 py-12 md:py-16">
         <div className="mx-auto max-w-5xl">
-          <div className="flex items-center gap-3 mb-2">
-            <GraduationCap className="h-8 w-8 text-accent" />
-            <span className="text-primary-foreground/70 font-body text-sm uppercase tracking-widest">
-              Class Dashboard
-            </span>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <GraduationCap className="h-8 w-8 text-accent" />
+              <span className="text-primary-foreground/70 font-body text-sm uppercase tracking-widest">
+                Class Dashboard
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-primary-foreground/60 text-sm hidden sm:inline">
+                {user?.email} {isTeacher ? "(Teacher)" : "(Student)"}
+              </span>
+              <Button variant="ghost" size="sm" onClick={signOut} className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
           <h1 className="font-display text-4xl md:text-5xl text-primary-foreground mb-2">
             My Classroom
@@ -64,23 +76,27 @@ const Index = () => {
           {classPhoto ? (
             <div className="relative group rounded-xl overflow-hidden border border-border shadow-card">
               <img src={classPhoto} alt="Class group" className="w-full h-64 object-cover" />
-              <button
-                onClick={() => classPhotoRef.current?.click()}
-                className="absolute inset-0 bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-              >
-                <Camera className="h-8 w-8 text-background" />
-              </button>
+              {isTeacher && (
+                <button
+                  onClick={() => classPhotoRef.current?.click()}
+                  className="absolute inset-0 bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                >
+                  <Camera className="h-8 w-8 text-background" />
+                </button>
+              )}
             </div>
           ) : (
             <button
-              onClick={() => classPhotoRef.current?.click()}
-              className="w-full h-48 rounded-xl border-2 border-dashed border-border hover:border-accent transition-colors flex flex-col items-center justify-center gap-3 bg-card"
+              onClick={() => isTeacher && classPhotoRef.current?.click()}
+              className={`w-full h-48 rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-3 bg-card ${isTeacher ? "hover:border-accent transition-colors cursor-pointer" : "cursor-default"}`}
             >
               <ImagePlus className="h-10 w-10 text-muted-foreground" />
-              <span className="text-muted-foreground text-sm">Upload a class group photo</span>
+              <span className="text-muted-foreground text-sm">
+                {isTeacher ? "Upload a class group photo" : "No class photo yet"}
+              </span>
             </button>
           )}
-          <input ref={classPhotoRef} type="file" accept="image/*" onChange={handleClassPhoto} className="hidden" />
+          {isTeacher && <input ref={classPhotoRef} type="file" accept="image/*" onChange={handleClassPhoto} className="hidden" />}
         </div>
 
         {/* Controls */}
@@ -94,10 +110,12 @@ const Index = () => {
               className="pl-10 bg-card"
             />
           </div>
-          <Button onClick={() => setDialogOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Student
-          </Button>
+          {isTeacher && (
+            <Button onClick={() => setDialogOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Student
+            </Button>
+          )}
         </div>
 
         {/* Student Grid */}
@@ -112,13 +130,17 @@ const Index = () => {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((student) => (
-              <StudentCard key={student.id} student={student} onDelete={(id) => deleteStudent.mutate(id)} />
+              <StudentCard
+                key={student.id}
+                student={student}
+                onDelete={isTeacher ? (id) => deleteStudent.mutate(id) : undefined}
+              />
             ))}
           </div>
         )}
       </div>
 
-      <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      {isTeacher && <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />}
     </div>
   );
 };

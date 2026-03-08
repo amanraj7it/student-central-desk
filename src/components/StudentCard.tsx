@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 interface StudentCardProps {
   student: Student;
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
@@ -30,14 +30,16 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
             <span className="text-muted-foreground text-sm font-body">Reg #{student.register_number}</span>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(e) => { e.stopPropagation(); onDelete(student.id); }}
-          className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        {onDelete && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => { e.stopPropagation(); onDelete(student.id); }}
+            className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
       </div>
 
       <div className="space-y-2">

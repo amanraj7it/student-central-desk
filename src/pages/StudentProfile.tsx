@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useStudents, useAddStudentPhoto } from "@/hooks/use-students";
+import { useAuth } from "@/hooks/use-auth";
 
 const StudentProfile = () => {
   const { id } = useParams();
@@ -13,7 +14,11 @@ const StudentProfile = () => {
 
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
+  const { user, isTeacher } = useAuth();
   const student = students.find((s) => s.id === id);
+
+  const isOwner = student?.user_id === user?.id;
+  const canEdit = isTeacher || isOwner;
 
   if (!student) {
     return (
@@ -128,21 +133,25 @@ const StudentProfile = () => {
             <h2 className="font-display text-xl text-card-foreground">
               Photo Gallery ({allPhotos.length})
             </h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => fileInputRef.current?.click()}
-              className="text-accent border-accent/30 hover:bg-accent/10"
-            >
-              <Plus className="h-4 w-4 mr-1" /> Add Photo
-            </Button>
-            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAddPhoto} className="hidden" />
+            {canEdit && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-accent border-accent/30 hover:bg-accent/10"
+                >
+                  <Plus className="h-4 w-4 mr-1" /> Add Photo
+                </Button>
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAddPhoto} className="hidden" />
+              </>
+            )}
           </div>
 
           {allPhotos.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed border-border rounded-lg">
               <Camera className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground text-sm">No photos yet. Add some!</p>
+              <p className="text-muted-foreground text-sm">No photos yet.</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
