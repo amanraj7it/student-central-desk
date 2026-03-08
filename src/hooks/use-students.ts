@@ -133,6 +133,33 @@ export function useUpdateStudent() {
   });
 }
 
+export function useUpdateProfilePicture() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ studentId, file }: { studentId: string; file: File }) => {
+      const ext = file.name.split(".").pop();
+      const path = `profiles/${studentId}/${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("student-photos")
+        .upload(path, file);
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabase.storage
+        .from("student-photos")
+        .getPublicUrl(path);
+      const { error } = await supabase
+        .from("students")
+        .update({ profile_picture_url: urlData.publicUrl })
+        .eq("id", studentId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["students"] });
+      toast.success("Profile photo updated!");
+    },
+    onError: (e) => toast.error("Failed to update photo: " + e.message),
+  });
+}
+
 export function useAddStudentPhoto() {
   const qc = useQueryClient();
   return useMutation({
