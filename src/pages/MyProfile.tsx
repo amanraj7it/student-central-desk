@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, Phone, User, Camera, MapPin, Heart, Users, Pencil, Plus, Images, Trash2 } from "lucide-react";
+import { ArrowLeft, Mail, Phone, User, Camera, MapPin, Heart, Pencil, Plus, Images, Trash2, Star, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { PhotoCropDialog } from "@/components/PhotoCropDialog";
@@ -183,13 +183,16 @@ const MyProfile = () => {
                   <span className="text-muted-foreground">Blood Group: {myProfile.blood_group}</span>
                 </div>
               )}
-              {myProfile.parent_name && (
+              {myProfile.specialization && (
                 <div className="flex items-center gap-3 text-sm">
-                  <Users className="h-4 w-4 text-accent" />
-                  <span className="text-muted-foreground">
-                    Parent: {myProfile.parent_name}
-                    {myProfile.parent_phone && ` (${myProfile.parent_phone})`}
-                  </span>
+                  <Star className="h-4 w-4 text-accent" />
+                  <span className="text-muted-foreground">Specialization: {myProfile.specialization}</span>
+                </div>
+              )}
+              {myProfile.hobby && (
+                <div className="flex items-center gap-3 text-sm">
+                  <Sparkles className="h-4 w-4 text-accent" />
+                  <span className="text-muted-foreground">Hobby: {myProfile.hobby}</span>
                 </div>
               )}
             </div>
