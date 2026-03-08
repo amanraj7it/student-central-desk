@@ -72,6 +72,7 @@ export function useAddStudent() {
       parent_name?: string;
       parent_phone?: string;
       profile_picture_file?: File;
+      user_id?: string;
     }) => {
       let profile_picture_url: string | null = null;
 
