@@ -51,7 +51,7 @@ const StudentProfile = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-primary dark:bg-card px-6 py-8">
+      <header className="border-b border-border bg-primary px-6 py-8">
         <div className="mx-auto max-w-4xl">
           <Button
             variant="ghost"

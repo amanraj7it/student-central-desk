@@ -43,7 +43,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-primary dark:bg-card px-6 py-12 md:py-16">
+      <header className="border-b border-border bg-primary px-6 py-12 md:py-16">
         <div className="mx-auto max-w-5xl">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
