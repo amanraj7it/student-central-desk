@@ -6,15 +6,16 @@ import { useNavigate } from "react-router-dom";
 interface StudentCardProps {
   student: Student;
   onDelete?: (id: string) => void;
+  isCurrentUser?: boolean;
 }
 
-export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
+export const StudentCard = ({ student, onDelete, isCurrentUser }: StudentCardProps) => {
   const navigate = useNavigate();
 
   return (
     <div
       onClick={() => navigate(`/student/${student.id}`)}
-      className="group relative bg-card rounded-xl border border-border p-5 shadow-card hover:shadow-elevated transition-shadow duration-300 cursor-pointer"
+      className={`group relative bg-card rounded-xl border p-5 shadow-card hover:shadow-elevated transition-shadow duration-300 cursor-pointer ${isCurrentUser ? "border-accent ring-2 ring-accent/30" : "border-border"}`}
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -26,7 +27,12 @@ export const StudentCard = ({ student, onDelete }: StudentCardProps) => {
             )}
           </div>
           <div>
-            <h3 className="font-display text-lg text-card-foreground leading-tight">{student.name}</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-display text-lg text-card-foreground leading-tight">{student.name}</h3>
+              {isCurrentUser && (
+                <span className="text-[10px] font-medium uppercase tracking-wider bg-accent text-accent-foreground px-1.5 py-0.5 rounded">You</span>
+              )}
+            </div>
             <span className="text-muted-foreground text-sm font-body">Reg #{student.register_number}</span>
           </div>
         </div>

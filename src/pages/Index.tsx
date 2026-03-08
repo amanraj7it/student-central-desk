@@ -204,11 +204,16 @@ const Index = () => {
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((student) => (
+            {[...filtered].sort((a, b) => {
+              const aIsMe = a.user_id === user?.id ? -1 : 0;
+              const bIsMe = b.user_id === user?.id ? -1 : 0;
+              return aIsMe - bIsMe;
+            }).map((student) => (
               <StudentCard
                 key={student.id}
                 student={student}
                 onDelete={isAdmin ? (id) => deleteStudent.mutate(id) : undefined}
+                isCurrentUser={student.user_id === user?.id}
               />
             ))}
           </div>
