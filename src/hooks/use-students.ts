@@ -16,6 +16,7 @@ export interface Student {
   blood_group: string | null;
   address: string | null;
   parent_name: string | null;
+  user_id: string | null;
   parent_phone: string | null;
   photos?: string[];
 }
