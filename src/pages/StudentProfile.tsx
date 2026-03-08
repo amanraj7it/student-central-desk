@@ -7,6 +7,7 @@ import { PhotoCropDialog } from "@/components/PhotoCropDialog";
 import { useStudents, useAddStudentPhoto, useUpdateProfilePicture, useDeleteStudentPhoto } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 import { EditStudentDialog } from "@/components/EditStudentDialog";
+import { ProfileQRCode, QRCodeButton } from "@/components/ProfileQRCode";
 
 const StudentProfile = () => {
   const { id } = useParams();
@@ -17,6 +18,7 @@ const StudentProfile = () => {
   const [cropFile, setCropFile] = useState<File | null>(null);
   const [cropOpen, setCropOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
 
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
@@ -99,19 +101,22 @@ const StudentProfile = () => {
               <p className="text-primary-foreground/60 font-body mt-1">
                 Reg #{student.register_number} · Grade {student.grade} · Section {student.section}
               </p>
-              {canEdit && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setEditOpen(true)}
-                  className="mt-2 border-accent/50 bg-accent/10 text-primary-foreground hover:bg-accent/20"
-                >
-                  <Pencil className="h-3.5 w-3.5 mr-1.5" /> Edit Details
-                </Button>
-              )}
-              {!canEdit && user && (
-                <p className="mt-2 text-xs text-primary-foreground/40">Only the profile owner or a teacher can edit</p>
-              )}
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                {canEdit && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setEditOpen(true)}
+                    className="border-accent/50 bg-accent/10 text-primary-foreground hover:bg-accent/20"
+                  >
+                    <Pencil className="h-3.5 w-3.5 mr-1.5" /> Edit Details
+                  </Button>
+                )}
+                <QRCodeButton onClick={() => setQrOpen(true)} />
+                {!canEdit && user && (
+                  <p className="text-xs text-primary-foreground/40">Only the profile owner or a teacher can edit</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -245,6 +250,8 @@ const StudentProfile = () => {
       />
 
       <EditStudentDialog open={editOpen} onOpenChange={setEditOpen} student={student} />
+
+      <ProfileQRCode open={qrOpen} onOpenChange={setQrOpen} studentId={student.id} studentName={student.name} />
     </div>
   );
 };
