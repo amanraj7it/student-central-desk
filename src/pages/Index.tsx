@@ -17,10 +17,10 @@ const Index = () => {
 
   const { data: students = [], isLoading } = useStudents();
   const deleteStudent = useDeleteStudent();
-  const { user, isTeacher, signOut } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
 
-  // Check if current student already has a profile
-  const hasOwnProfile = !isTeacher && students.some((s) => s.user_id === user?.id);
+  // Check if current user already has a profile
+  const hasOwnProfile = !isAdmin && students.some((s) => s.user_id === user?.id);
 
   const filtered = students.filter(
     (s) =>
@@ -50,7 +50,7 @@ const Index = () => {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-primary-foreground/60 text-sm hidden sm:inline">
-                {user?.email} {isTeacher ? "(Teacher)" : "(Student)"}
+                {user?.email} {isAdmin ? "(Admin)" : ""}
               </span>
               <Button variant="ghost" size="sm" onClick={signOut} className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10">
                 <LogOut className="h-4 w-4" />
@@ -81,7 +81,7 @@ const Index = () => {
           {classPhoto ? (
             <div className="relative group rounded-xl overflow-hidden border border-border shadow-card">
               <img src={classPhoto} alt="Class group" className="w-full h-64 object-cover" />
-              {isTeacher && (
+              {isAdmin && (
                 <button
                   onClick={() => classPhotoRef.current?.click()}
                   className="absolute inset-0 bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
@@ -92,16 +92,16 @@ const Index = () => {
             </div>
           ) : (
             <button
-              onClick={() => isTeacher && classPhotoRef.current?.click()}
-              className={`w-full h-48 rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-3 bg-card ${isTeacher ? "hover:border-accent transition-colors cursor-pointer" : "cursor-default"}`}
+              onClick={() => isAdmin && classPhotoRef.current?.click()}
+              className={`w-full h-48 rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-3 bg-card ${isAdmin ? "hover:border-accent transition-colors cursor-pointer" : "cursor-default"}`}
             >
               <ImagePlus className="h-10 w-10 text-muted-foreground" />
               <span className="text-muted-foreground text-sm">
-                {isTeacher ? "Upload a class group photo" : "No class photo yet"}
+                {isAdmin ? "Upload a class group photo" : "No class photo yet"}
               </span>
             </button>
           )}
-          {isTeacher && <input ref={classPhotoRef} type="file" accept="image/*" onChange={handleClassPhoto} className="hidden" />}
+          {isAdmin && <input ref={classPhotoRef} type="file" accept="image/*" onChange={handleClassPhoto} className="hidden" />}
         </div>
 
         {/* Controls */}
@@ -115,13 +115,13 @@ const Index = () => {
               className="pl-10 bg-card"
             />
           </div>
-          {isTeacher && (
+          {isAdmin && (
             <Button onClick={() => setDialogOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
               <Plus className="h-4 w-4 mr-2" />
               Add Student
             </Button>
           )}
-          {!isTeacher && !hasOwnProfile && (
+          {!isAdmin && !hasOwnProfile && (
             <Button onClick={() => setSelfFormOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
               <UserPlus className="h-4 w-4 mr-2" />
               Add My Info
@@ -144,15 +144,15 @@ const Index = () => {
               <StudentCard
                 key={student.id}
                 student={student}
-                onDelete={isTeacher ? (id) => deleteStudent.mutate(id) : undefined}
+                onDelete={isAdmin ? (id) => deleteStudent.mutate(id) : undefined}
               />
             ))}
           </div>
         )}
       </div>
 
-      {isTeacher && <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />}
-      {!isTeacher && <StudentSelfForm open={selfFormOpen} onOpenChange={setSelfFormOpen} />}
+      {isAdmin && <AddStudentDialog open={dialogOpen} onOpenChange={setDialogOpen} />}
+      {!isAdmin && <StudentSelfForm open={selfFormOpen} onOpenChange={setSelfFormOpen} />}
     </div>
   );
 };

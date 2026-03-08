@@ -14,11 +14,11 @@ const StudentProfile = () => {
 
   const { data: students = [] } = useStudents();
   const addPhoto = useAddStudentPhoto();
-  const { user, isTeacher } = useAuth();
+  const { user, isAdmin } = useAuth();
   const student = students.find((s) => s.id === id);
 
   const isOwner = student?.user_id === user?.id;
-  const canEdit = isTeacher || isOwner;
+  const canEdit = isAdmin || isOwner;
 
   if (!student) {
     return (
