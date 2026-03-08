@@ -7,6 +7,7 @@ import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
 import { StudentSelfForm } from "@/components/StudentSelfForm";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemePicker, useCustomTheme } from "@/components/ThemePicker";
 import { BirthdayReminders } from "@/components/BirthdayReminders";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
@@ -20,6 +21,7 @@ const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selfFormOpen, setSelfFormOpen] = useState(false);
   const classPhotoRef = useRef<HTMLInputElement>(null);
+  useCustomTheme();
 
   const { data: students = [], isLoading } = useStudents();
   const deleteStudent = useDeleteStudent();
@@ -63,6 +65,7 @@ const Index = () => {
               <span className="text-primary-foreground/60 text-sm hidden sm:inline">
                 {user?.email} {isAdmin ? "(Admin)" : ""}
               </span>
+              <ThemePicker />
               <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={signOut} className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10">
                 <LogOut className="h-4 w-4" />
