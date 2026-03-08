@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
 import { AddStudentDialog } from "@/components/AddStudentDialog";
 import { StudentSelfForm } from "@/components/StudentSelfForm";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { BirthdayReminders } from "@/components/BirthdayReminders";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
 import { useClassPhoto, useUploadClassPhoto } from "@/hooks/use-class-photo";
@@ -52,6 +54,7 @@ const Index = () => {
               <span className="text-primary-foreground/60 text-sm hidden sm:inline">
                 {user?.email} {isAdmin ? "(Admin)" : ""}
               </span>
+              <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={signOut} className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10">
                 <LogOut className="h-4 w-4" />
               </Button>
@@ -75,6 +78,9 @@ const Index = () => {
       </header>
 
       <div className="mx-auto max-w-5xl px-6 py-8">
+        {/* Birthday Reminders */}
+        <BirthdayReminders students={students} />
+
         {/* Class Group Photo */}
         <div className="mb-8">
           <h2 className="font-display text-2xl text-foreground mb-4">Class Group Photo</h2>
