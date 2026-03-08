@@ -32,6 +32,33 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          user_email: string
+          user_id: string
+          user_name: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          user_email: string
+          user_id: string
+          user_name?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          user_email?: string
+          user_id?: string
+          user_name?: string | null
+        }
+        Relationships: []
+      }
       student_photos: {
         Row: {
           created_at: string
