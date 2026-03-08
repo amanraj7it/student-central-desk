@@ -24,7 +24,7 @@ const StudentProfile = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <p className="text-muted-foreground text-lg mb-4">Student not found.</p>
+          <p className="text-muted-foreground text-lg mb-4">Friend not found.</p>
           <Button onClick={() => navigate("/")} variant="outline">
             <ArrowLeft className="h-4 w-4 mr-2" /> Go Back
           </Button>
