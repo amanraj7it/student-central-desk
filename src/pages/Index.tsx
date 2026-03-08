@@ -7,17 +7,19 @@ import { AddStudentDialog } from "@/components/AddStudentDialog";
 import { StudentSelfForm } from "@/components/StudentSelfForm";
 import { useStudents, useDeleteStudent } from "@/hooks/use-students";
 import { useAuth } from "@/hooks/use-auth";
+import { useClassPhoto, useUploadClassPhoto } from "@/hooks/use-class-photo";
 
 const Index = () => {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selfFormOpen, setSelfFormOpen] = useState(false);
-  const [classPhoto, setClassPhoto] = useState<string | undefined>();
   const classPhotoRef = useRef<HTMLInputElement>(null);
 
   const { data: students = [], isLoading } = useStudents();
   const deleteStudent = useDeleteStudent();
   const { user, isAdmin, signOut } = useAuth();
+  const { data: classPhoto } = useClassPhoto();
+  const uploadClassPhoto = useUploadClassPhoto();
 
   // Check if current user already has a profile
   const hasOwnProfile = !isAdmin && students.some((s) => s.user_id === user?.id);
@@ -32,9 +34,7 @@ const Index = () => {
   const handleClassPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || file.size > 10 * 1024 * 1024) return;
-    const reader = new FileReader();
-    reader.onloadend = () => setClassPhoto(reader.result as string);
-    reader.readAsDataURL(file);
+    uploadClassPhoto.mutate(file);
   };
 
   return (
