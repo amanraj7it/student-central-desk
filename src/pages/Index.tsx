@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
@@ -73,6 +74,12 @@ const Index = () => {
                 {students.length} Friends
               </span>
             </div>
+            <Link to="/chat">
+              <div className="flex items-center gap-2 bg-accent/20 hover:bg-accent/30 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <MessageCircle className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Class Chat</span>
+              </div>
+            </Link>
           </div>
         </div>
       </header>
