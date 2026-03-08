@@ -188,3 +188,21 @@ export function useAddStudentPhoto() {
     onError: (e) => toast.error("Failed to add photo: " + e.message),
   });
 }
+
+export function useDeleteStudentPhoto() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ photoUrl }: { photoUrl: string }) => {
+      const { error } = await supabase
+        .from("student_photos")
+        .delete()
+        .eq("photo_url", photoUrl);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["students"] });
+      toast.success("Photo deleted!");
+    },
+    onError: (e) => toast.error("Failed to delete photo: " + e.message),
+  });
+}
