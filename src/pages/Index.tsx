@@ -30,11 +30,16 @@ const Index = () => {
   // Check if current user already has a profile
   const hasOwnProfile = !isAdmin && students.some((s) => s.user_id === user?.id);
 
+  const sections = [...new Set(students.map((s) => s.section).filter(Boolean))].sort();
+  const bloodGroups = [...new Set(students.map((s) => s.blood_group).filter(Boolean))].sort();
+
   const filtered = students.filter(
     (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.register_number.includes(search) ||
-      (s.email || "").toLowerCase().includes(search.toLowerCase())
+      (s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.register_number.includes(search) ||
+        (s.email || "").toLowerCase().includes(search.toLowerCase())) &&
+      (!filterSection || s.section === filterSection) &&
+      (!filterBloodGroup || s.blood_group === filterBloodGroup)
   );
 
   const handleClassPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
