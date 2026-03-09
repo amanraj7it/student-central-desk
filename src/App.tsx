@@ -12,6 +12,8 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Chat from "./pages/Chat";
+import Conversations from "./pages/Conversations";
+import DirectMessage from "./pages/DirectMessage";
 import Albums from "./pages/Albums";
 import MyProfile from "./pages/MyProfile";
 import NotFound from "./pages/NotFound";
