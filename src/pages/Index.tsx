@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, Images, FileDown, UserCircle } from "lucide-react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, MessageSquare, Images, FileDown, UserCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
