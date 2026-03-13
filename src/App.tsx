@@ -19,6 +19,7 @@ import MyProfile from "./pages/MyProfile";
 import Games from "./pages/Games";
 import QuizGame from "./pages/QuizGame";
 import TicTacToe from "./pages/TicTacToe";
+import OnlineTicTacToe from "./pages/OnlineTicTacToe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="/games" element={<ProtectedRoute><Games /></ProtectedRoute>} />
               <Route path="/games/quiz" element={<ProtectedRoute><QuizGame /></ProtectedRoute>} />
               <Route path="/games/tic-tac-toe" element={<ProtectedRoute><TicTacToe /></ProtectedRoute>} />
+              <Route path="/games/tic-tac-toe/online/:id" element={<ProtectedRoute><OnlineTicTacToe /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>

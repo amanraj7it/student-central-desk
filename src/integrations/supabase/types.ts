@@ -179,6 +179,42 @@ export type Database = {
           },
         ]
       }
+      game_challenges: {
+        Row: {
+          challenged_id: string
+          challenger_id: string
+          created_at: string
+          game_data: Json
+          game_type: string
+          id: string
+          status: string
+          updated_at: string
+          winner_id: string | null
+        }
+        Insert: {
+          challenged_id: string
+          challenger_id: string
+          created_at?: string
+          game_data?: Json
+          game_type?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Update: {
+          challenged_id?: string
+          challenger_id?: string
+          created_at?: string
+          game_data?: Json
+          game_type?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string
