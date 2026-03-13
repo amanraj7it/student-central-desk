@@ -16,6 +16,9 @@ import Conversations from "./pages/Conversations";
 import DirectMessage from "./pages/DirectMessage";
 import Albums from "./pages/Albums";
 import MyProfile from "./pages/MyProfile";
+import Games from "./pages/Games";
+import QuizGame from "./pages/QuizGame";
+import TicTacToe from "./pages/TicTacToe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
