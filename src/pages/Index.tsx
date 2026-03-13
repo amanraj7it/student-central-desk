@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, MessageSquare, Images, FileDown, UserCircle } from "lucide-react";
+import { Search, Plus, Users, GraduationCap, Camera, ImagePlus, LogOut, UserPlus, MessageCircle, MessageSquare, Images, FileDown, UserCircle, Gamepad2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StudentCard } from "@/components/StudentCard";
@@ -107,6 +107,12 @@ const Index = () => {
               <div className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer">
                 <Images className="h-4 w-4 text-accent" />
                 <span className="text-primary-foreground text-sm font-medium">Albums</span>
+              </div>
+            </Link>
+            <Link to="/games">
+              <div className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <Gamepad2 className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Games</span>
               </div>
             </Link>
             {isAdmin && (
