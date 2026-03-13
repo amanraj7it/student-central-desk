@@ -58,6 +58,9 @@ const App = () => {
               <Route path="/dm/:id" element={<ProtectedRoute><DirectMessage /></ProtectedRoute>} />
               <Route path="/albums" element={<ProtectedRoute><Albums /></ProtectedRoute>} />
               <Route path="/my-profile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
+              <Route path="/games" element={<ProtectedRoute><Games /></ProtectedRoute>} />
+              <Route path="/games/quiz" element={<ProtectedRoute><QuizGame /></ProtectedRoute>} />
+              <Route path="/games/tic-tac-toe" element={<ProtectedRoute><TicTacToe /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>

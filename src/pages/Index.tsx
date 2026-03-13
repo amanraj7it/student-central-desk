@@ -109,6 +109,12 @@ const Index = () => {
                 <span className="text-primary-foreground text-sm font-medium">Albums</span>
               </div>
             </Link>
+            <Link to="/games">
+              <div className="flex items-center gap-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors rounded-lg px-4 py-2 cursor-pointer">
+                <Gamepad2 className="h-4 w-4 text-accent" />
+                <span className="text-primary-foreground text-sm font-medium">Games</span>
+              </div>
+            </Link>
             {isAdmin && (
               <button
                 onClick={() => exportStudentsPdf(students)}
