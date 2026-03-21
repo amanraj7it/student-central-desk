@@ -123,7 +123,10 @@ const Games = () => {
                     <p className="font-medium text-foreground">
                       {getStudentName(c.challenger_id)} challenged you to{" "}
                       <span className="text-accent font-bold">
-                        {c.game_type === "tictactoe" ? "Tic Tac Toe" : "Quiz"}
+                        {c.game_type === "tictactoe" ? "Tic Tac Toe" :
+                         c.game_type === "rps" ? "Rock Paper Scissors" :
+                         c.game_type === "memory" ? "Memory Match" :
+                         c.game_type === "snake" ? "Snake" : c.game_type}
                       </span>!
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
