@@ -204,7 +204,7 @@ const Games = () => {
                   <p className="text-muted-foreground text-sm">{game.description}</p>
                 </div>
               </Link>
-              {["tictactoe", "rps", "memory", "snake"].includes(game.id === "tictactoe" ? "tictactoe" : game.id) && (
+              {["tictactoe", "rps", "memory", "snake"].includes(game.id) && (
                 <div className="px-5 pb-5">
                   <Button
                     variant="outline"
