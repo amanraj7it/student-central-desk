@@ -20,6 +20,9 @@ import Games from "./pages/Games";
 import QuizGame from "./pages/QuizGame";
 import TicTacToe from "./pages/TicTacToe";
 import OnlineTicTacToe from "./pages/OnlineTicTacToe";
+import RockPaperScissors from "./pages/RockPaperScissors";
+import MemoryMatch from "./pages/MemoryMatch";
+import SnakeGame from "./pages/SnakeGame";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
