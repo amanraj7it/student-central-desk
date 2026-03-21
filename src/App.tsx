@@ -21,8 +21,11 @@ import QuizGame from "./pages/QuizGame";
 import TicTacToe from "./pages/TicTacToe";
 import OnlineTicTacToe from "./pages/OnlineTicTacToe";
 import RockPaperScissors from "./pages/RockPaperScissors";
+import OnlineRPS from "./pages/OnlineRPS";
 import MemoryMatch from "./pages/MemoryMatch";
+import OnlineMemoryMatch from "./pages/OnlineMemoryMatch";
 import SnakeGame from "./pages/SnakeGame";
+import OnlineSnake from "./pages/OnlineSnake";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
