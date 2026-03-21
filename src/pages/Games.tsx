@@ -166,6 +166,9 @@ const Games = () => {
                     key={c.id}
                     onClick={() => {
                       if (c.game_type === "tictactoe") navigate(`/games/tic-tac-toe/online/${c.id}`);
+                      else if (c.game_type === "rps") navigate(`/games/rock-paper-scissors/online/${c.id}`);
+                      else if (c.game_type === "memory") navigate(`/games/memory-match/online/${c.id}`);
+                      else if (c.game_type === "snake") navigate(`/games/snake/online/${c.id}`);
                     }}
                     className="flex items-center justify-between rounded-xl border border-border bg-card p-4 cursor-pointer hover:border-accent transition-colors"
                   >
