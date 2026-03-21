@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Gamepad2, Brain, Grid3X3, Swords, Check, X } from "lucide-react";
+import { ArrowLeft, Gamepad2, Brain, Grid3X3, Swords, Check, X, Hand, Layers, Bug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -27,6 +27,30 @@ const gamesList = [
     icon: Grid3X3,
     color: "from-emerald-500 to-teal-600",
     path: "/games/tic-tac-toe",
+  },
+  {
+    id: "rps",
+    title: "Rock Paper Scissors",
+    description: "Test your luck against the computer in the classic RPS showdown!",
+    icon: Hand,
+    color: "from-orange-500 to-amber-600",
+    path: "/games/rock-paper-scissors",
+  },
+  {
+    id: "memory",
+    title: "Memory Match",
+    description: "Flip cards and find matching pairs — train your memory!",
+    icon: Layers,
+    color: "from-pink-500 to-rose-600",
+    path: "/games/memory-match",
+  },
+  {
+    id: "snake",
+    title: "Snake",
+    description: "Guide the snake, eat food, and grow as long as you can!",
+    icon: Bug,
+    color: "from-lime-500 to-green-600",
+    path: "/games/snake",
   },
 ];
 
