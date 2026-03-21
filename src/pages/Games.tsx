@@ -123,7 +123,10 @@ const Games = () => {
                     <p className="font-medium text-foreground">
                       {getStudentName(c.challenger_id)} challenged you to{" "}
                       <span className="text-accent font-bold">
-                        {c.game_type === "tictactoe" ? "Tic Tac Toe" : "Quiz"}
+                        {c.game_type === "tictactoe" ? "Tic Tac Toe" :
+                         c.game_type === "rps" ? "Rock Paper Scissors" :
+                         c.game_type === "memory" ? "Memory Match" :
+                         c.game_type === "snake" ? "Snake" : c.game_type}
                       </span>!
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -163,12 +166,18 @@ const Games = () => {
                     key={c.id}
                     onClick={() => {
                       if (c.game_type === "tictactoe") navigate(`/games/tic-tac-toe/online/${c.id}`);
+                      else if (c.game_type === "rps") navigate(`/games/rock-paper-scissors/online/${c.id}`);
+                      else if (c.game_type === "memory") navigate(`/games/memory-match/online/${c.id}`);
+                      else if (c.game_type === "snake") navigate(`/games/snake/online/${c.id}`);
                     }}
                     className="flex items-center justify-between rounded-xl border border-border bg-card p-4 cursor-pointer hover:border-accent transition-colors"
                   >
                     <div>
                       <p className="font-medium text-foreground">
-                        {c.game_type === "tictactoe" ? "Tic Tac Toe" : "Quiz"} vs{" "}
+                        {c.game_type === "tictactoe" ? "Tic Tac Toe" :
+                         c.game_type === "rps" ? "Rock Paper Scissors" :
+                         c.game_type === "memory" ? "Memory Match" :
+                         c.game_type === "snake" ? "Snake" : c.game_type} vs{" "}
                         <span className="text-accent">{getStudentName(opponentId)}</span>
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">Tap to continue playing</p>
@@ -195,13 +204,13 @@ const Games = () => {
                   <p className="text-muted-foreground text-sm">{game.description}</p>
                 </div>
               </Link>
-              {game.id === "tictactoe" && (
+              {["tictactoe", "rps", "memory", "snake"].includes(game.id) && (
                 <div className="px-5 pb-5">
                   <Button
                     variant="outline"
                     size="sm"
                     className="w-full border-accent/30 text-accent hover:bg-accent/10"
-                    onClick={() => setChallengeDialog({ open: true, gameType: "tictactoe" })}
+                    onClick={() => setChallengeDialog({ open: true, gameType: game.id === "tictactoe" ? "tictactoe" : game.id })}
                   >
                     <Swords className="h-4 w-4 mr-2" />
                     Challenge a Friend

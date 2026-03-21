@@ -21,8 +21,11 @@ import QuizGame from "./pages/QuizGame";
 import TicTacToe from "./pages/TicTacToe";
 import OnlineTicTacToe from "./pages/OnlineTicTacToe";
 import RockPaperScissors from "./pages/RockPaperScissors";
+import OnlineRPS from "./pages/OnlineRPS";
 import MemoryMatch from "./pages/MemoryMatch";
+import OnlineMemoryMatch from "./pages/OnlineMemoryMatch";
 import SnakeGame from "./pages/SnakeGame";
+import OnlineSnake from "./pages/OnlineSnake";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -67,8 +70,11 @@ const App = () => {
               <Route path="/games/tic-tac-toe" element={<ProtectedRoute><TicTacToe /></ProtectedRoute>} />
               <Route path="/games/tic-tac-toe/online/:id" element={<ProtectedRoute><OnlineTicTacToe /></ProtectedRoute>} />
               <Route path="/games/rock-paper-scissors" element={<ProtectedRoute><RockPaperScissors /></ProtectedRoute>} />
+              <Route path="/games/rock-paper-scissors/online/:id" element={<ProtectedRoute><OnlineRPS /></ProtectedRoute>} />
               <Route path="/games/memory-match" element={<ProtectedRoute><MemoryMatch /></ProtectedRoute>} />
+              <Route path="/games/memory-match/online/:id" element={<ProtectedRoute><OnlineMemoryMatch /></ProtectedRoute>} />
               <Route path="/games/snake" element={<ProtectedRoute><SnakeGame /></ProtectedRoute>} />
+              <Route path="/games/snake/online/:id" element={<ProtectedRoute><OnlineSnake /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
