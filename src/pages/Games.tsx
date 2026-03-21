@@ -204,13 +204,13 @@ const Games = () => {
                   <p className="text-muted-foreground text-sm">{game.description}</p>
                 </div>
               </Link>
-              {game.id === "tictactoe" && (
+              {["tictactoe", "rps", "memory", "snake"].includes(game.id === "tictactoe" ? "tictactoe" : game.id) && (
                 <div className="px-5 pb-5">
                   <Button
                     variant="outline"
                     size="sm"
                     className="w-full border-accent/30 text-accent hover:bg-accent/10"
-                    onClick={() => setChallengeDialog({ open: true, gameType: "tictactoe" })}
+                    onClick={() => setChallengeDialog({ open: true, gameType: game.id === "tictactoe" ? "tictactoe" : game.id })}
                   >
                     <Swords className="h-4 w-4 mr-2" />
                     Challenge a Friend

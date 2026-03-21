@@ -51,6 +51,16 @@ export function useCreateChallenge() {
     mutationFn: async ({ challengedId, gameType }: { challengedId: string; gameType: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
+      let initialGameData: any = {};
+      if (gameType === "tictactoe") {
+        initialGameData = { board: Array(9).fill(null), isXTurn: true, xPlayer: user.id, oPlayer: challengedId };
+      } else if (gameType === "rps") {
+        initialGameData = { player1: user.id, player2: challengedId, rounds: [], currentRound: {}, lastReveal: null };
+      } else if (gameType === "memory") {
+        initialGameData = { player1: user.id, player2: challengedId, seed: Date.now().toString() };
+      } else if (gameType === "snake") {
+        initialGameData = { player1: user.id, player2: challengedId };
+      }
       const { data, error } = await supabase
         .from("game_challenges")
         .insert({
@@ -58,9 +68,7 @@ export function useCreateChallenge() {
           challenged_id: challengedId,
           game_type: gameType,
           status: "pending",
-          game_data: gameType === "tictactoe"
-            ? { board: Array(9).fill(null), isXTurn: true, xPlayer: user.id, oPlayer: challengedId }
-            : {},
+          game_data: initialGameData,
         } as any)
         .select()
         .single();
