@@ -174,7 +174,10 @@ const Games = () => {
                   >
                     <div>
                       <p className="font-medium text-foreground">
-                        {c.game_type === "tictactoe" ? "Tic Tac Toe" : "Quiz"} vs{" "}
+                        {c.game_type === "tictactoe" ? "Tic Tac Toe" :
+                         c.game_type === "rps" ? "Rock Paper Scissors" :
+                         c.game_type === "memory" ? "Memory Match" :
+                         c.game_type === "snake" ? "Snake" : c.game_type} vs{" "}
                         <span className="text-accent">{getStudentName(opponentId)}</span>
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">Tap to continue playing</p>
