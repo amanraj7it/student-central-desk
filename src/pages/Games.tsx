@@ -28,6 +28,30 @@ const gamesList = [
     color: "from-emerald-500 to-teal-600",
     path: "/games/tic-tac-toe",
   },
+  {
+    id: "rps",
+    title: "Rock Paper Scissors",
+    description: "Test your luck against the computer in the classic RPS showdown!",
+    icon: Hand,
+    color: "from-orange-500 to-amber-600",
+    path: "/games/rock-paper-scissors",
+  },
+  {
+    id: "memory",
+    title: "Memory Match",
+    description: "Flip cards and find matching pairs — train your memory!",
+    icon: Layers,
+    color: "from-pink-500 to-rose-600",
+    path: "/games/memory-match",
+  },
+  {
+    id: "snake",
+    title: "Snake",
+    description: "Guide the snake, eat food, and grow as long as you can!",
+    icon: Bug,
+    color: "from-lime-500 to-green-600",
+    path: "/games/snake",
+  },
 ];
 
 const Games = () => {

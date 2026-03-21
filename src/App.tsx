@@ -66,6 +66,9 @@ const App = () => {
               <Route path="/games/quiz" element={<ProtectedRoute><QuizGame /></ProtectedRoute>} />
               <Route path="/games/tic-tac-toe" element={<ProtectedRoute><TicTacToe /></ProtectedRoute>} />
               <Route path="/games/tic-tac-toe/online/:id" element={<ProtectedRoute><OnlineTicTacToe /></ProtectedRoute>} />
+              <Route path="/games/rock-paper-scissors" element={<ProtectedRoute><RockPaperScissors /></ProtectedRoute>} />
+              <Route path="/games/memory-match" element={<ProtectedRoute><MemoryMatch /></ProtectedRoute>} />
+              <Route path="/games/snake" element={<ProtectedRoute><SnakeGame /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
