@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Gamepad2, Brain, Grid3X3, Swords, Check, X } from "lucide-react";
+import { ArrowLeft, Gamepad2, Brain, Grid3X3, Swords, Check, X, Hand, Layers, Bug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
